@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "16.9.0",
     "react-native": "0.61.2",
+    "react-native-fbsdk": "^1.0.4",
     "react-native-voice": "^0.3.0"
   },
   "devDependencies": {
