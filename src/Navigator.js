@@ -8,21 +8,51 @@ import AppLoadingScreen from '../screens/AppLoadingScreen';
 import GoodScreen from '../screens/Diary/GoodScreen';
 import BadScreen from '../screens/Diary/BadScreen';
 import PlanScreen from '../screens/Diary/PlanScreen';
-
+import {View} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 
-export const AppStack = createMaterialTopTabNavigator(
+export const DiaryTabs = createMaterialTopTabNavigator({
+  Good: GoodScreen,
+  Bad: BadScreen,
+  Plan: PlanScreen,
+});
+
+export const DiaryStack = createStackNavigator({
+  DiaryTabs,
+});
+
+export const MainStack = createMaterialTopTabNavigator(
   {
     Home: HomeScreen,
-    Good: GoodScreen,
-    Bad: BadScreen,
-    Plan: PlanScreen,
+    Diary: {
+      screen: View,
+      navigationOptions: {
+        tabBarOnPress: ({navigation}) => navigation.navigate('DiaryStack'),
+      },
+    },
     User: UserScreen,
   },
   {
     tabBarPosition: 'bottom',
+    swipeEnabled: false,
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 14,
+      },
+    },
+  },
+);
+
+export const AppStack = createStackNavigator(
+  {
+    MainStack,
+    DiaryStack,
+  },
+  {
+    headerMode: 'none',
+    mode: 'modal',
   },
 );
 

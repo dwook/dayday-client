@@ -23,7 +23,7 @@ export default class Home extends React.Component {
           <Button title="User" onPress={this.showUser} />
           <Button title="Diary" onPress={this.showDiary} />
           <TouchableHighlight
-            onPress={() => this.props.navigation.navigate('Diary')}>
+            onPress={() => this.props.navigation.navigate('DiaryStack')}>
             <Text style={styles.text}>Diary</Text>
           </TouchableHighlight>
           <Button title="Test" onPress={this.showTest} />
