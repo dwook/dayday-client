@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, YellowBox} from 'react-native';
 import AppNavigator from './src/Navigator';
 import AppProvider from './src/Provider';
 
@@ -16,3 +16,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+YellowBox.ignoreWarnings(['RCTRootView cancelTouches']);

@@ -8,39 +8,31 @@ import {
   Text,
   View,
 } from 'react-native';
+import {AppContext} from '../src/Provider';
 
 export default class Home extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
-
   render() {
     return (
       <ImageBackground
         style={styles.background}
         source={require('../assets/space.png')}>
         <View style={styles.container}>
-          <Button title="User" onPress={this.showUser} />
-          <Button title="Diary" onPress={this.showDiary} />
-          <TouchableHighlight
-            onPress={() => this.props.navigation.navigate('DiaryStack')}>
-            <Text style={styles.text}>Diary</Text>
-          </TouchableHighlight>
-          <Button title="Test" onPress={this.showTest} />
+          <AppContext.Consumer>
+            {context => (
+              <View>
+                <Text style={styles.notice}>
+                  {context.diary.good &&
+                    context.diary.bad &&
+                    context.diary.plan &&
+                    '오늘 모든 일기를 쓰셨네요!'}
+                </Text>
+              </View>
+            )}
+          </AppContext.Consumer>
         </View>
       </ImageBackground>
     );
   }
-
-  showUser = () => {
-    this.props.navigation.navigate('User');
-  };
-  showDiary = () => {
-    this.props.navigation.navigate('Diary');
-  };
-  showTest = () => {
-    this.props.navigation.navigate('Test');
-  };
 }
 
 const styles = StyleSheet.create({
@@ -48,6 +40,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  notice: {
+    color: '#fff',
   },
   modal: {
     paddingTop: 100,

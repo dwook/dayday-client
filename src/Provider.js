@@ -13,9 +13,9 @@ export default class AppProvider extends Component {
       profile_image: '',
     },
     diary: {
-      good: '',
-      bad: '',
-      plan: '',
+      good: 'a',
+      bad: 'a',
+      plan: 'a',
     },
     setUser: user => {
       this.setState({

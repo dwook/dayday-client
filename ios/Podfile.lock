@@ -210,6 +210,8 @@ PODS:
   - react-native-fbsdk/Share (1.0.4):
     - FBSDKShareKit (~> 5.5)
     - React
+  - react-native-safe-area-context (0.5.0):
+    - React
   - react-native-voice (0.3.0):
     - React
   - React-RCTActionSheet (0.61.2):
@@ -276,6 +278,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-voice (from `../node_modules/react-native-voice`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -331,6 +334,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-fbsdk:
     :path: "../node_modules/react-native-fbsdk"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   react-native-voice:
     :path: "../node_modules/react-native-voice"
   React-RCTActionSheet:
@@ -382,6 +387,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-fbsdk: 45e28bbab3e905cbc635c0bdd3444b372e933ae9
+  react-native-safe-area-context: 13004a45f3021328fdd9ee1f987c3131fb65928d
   react-native-voice: 9829ac5dc9300687c5f215bddf6c9645e82923fc
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235

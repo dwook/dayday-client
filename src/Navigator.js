@@ -1,3 +1,5 @@
+import React from 'react';
+import {View, Button, SafeAreaView} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import UserScreen from '../screens/UserScreen';
@@ -8,20 +10,45 @@ import AppLoadingScreen from '../screens/AppLoadingScreen';
 import GoodScreen from '../screens/Diary/GoodScreen';
 import BadScreen from '../screens/Diary/BadScreen';
 import PlanScreen from '../screens/Diary/PlanScreen';
-import {View} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
+import {
+  createMaterialTopTabNavigator,
+  MaterialTopTabBar,
+} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 
-export const DiaryTabs = createMaterialTopTabNavigator({
-  Good: GoodScreen,
-  Bad: BadScreen,
-  Plan: PlanScreen,
-});
+function SafeAreaMaterialTopTabBar(props) {
+  return (
+    <SafeAreaView style={{backgroundColor: 'black'}}>
+      <Button
+        onPress={() => props.navigation.navigate('Home')}
+        title="닫기"
+        color="#fff"
+      />
+      <MaterialTopTabBar {...props} />
+    </SafeAreaView>
+  );
+}
 
-export const DiaryStack = createStackNavigator({
-  DiaryTabs,
-});
+export const DiaryTabs = createMaterialTopTabNavigator(
+  {
+    Good: GoodScreen,
+    Bad: BadScreen,
+    Plan: PlanScreen,
+  },
+  {
+    tabBarComponent: SafeAreaMaterialTopTabBar,
+  },
+);
+
+export const DiaryStack = createStackNavigator(
+  {
+    DiaryTabs,
+  },
+  {
+    headerMode: 'none',
+  },
+);
 
 export const MainStack = createMaterialTopTabNavigator(
   {
