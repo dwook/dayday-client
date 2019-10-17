@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import Svg, {Path, Circle} from 'react-native-svg';
 import styled from 'styled-components';
 
 export const HomeIcon = props => (
@@ -77,6 +77,49 @@ export const RecordIcon = props => (
     {...props}>
     <Path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" />
     <Path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" />
+  </Svg>
+);
+
+export const CloseIcon = props => (
+  <Svg
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#fff"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Circle cx={12} cy={12} r={10} />
+    <Path d="M15 9l-6 6M9 9l6 6" />
+  </Svg>
+);
+
+export const MinimizeIcon = props => (
+  <Svg
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#495057"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7" />
+  </Svg>
+);
+
+export const MaxmizeIcon = props => (
+  <Svg
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#495057"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
   </Svg>
 );
 

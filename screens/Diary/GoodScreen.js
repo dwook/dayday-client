@@ -9,16 +9,63 @@ import {
   TouchableOpacity,
   Dimensions,
   StatusBar,
+  Animated,
+  Keyboard,
   View,
 } from 'react-native';
 import {AppContext} from '../../src/Provider';
 import SafeAreaView from 'react-native-safe-area-view';
 import styled from 'styled-components';
-import {TypeIcon, RecordIcon} from '../../components/Icons';
+import {
+  TypeIcon,
+  RecordIcon,
+  MaxmizeIcon,
+  MinimizeIcon,
+} from '../../components/Icons';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default class GoodScreen extends React.Component {
+  state = {
+    keyboardState: 'closed',
+    isExpandedTextMode: false,
+    DiaryInputWrapHeight: new Animated.Value(58),
+    DiaryInputWrapTop: new Animated.Value(300),
+    DiaryInputHeight: new Animated.Value(26),
+  };
+
+  toggleTextMode = () => {
+    if (!this.state.isExpandedTextMode) {
+      console.log('텍스트 작성모드 ON');
+      this.setState({
+        isExpandedTextMode: true,
+      });
+      Animated.spring(this.state.DiaryInputWrapHeight, {
+        toValue: 300,
+      }).start();
+      Animated.spring(this.state.DiaryInputWrapTop, {
+        toValue: 80,
+      }).start();
+      Animated.spring(this.state.DiaryInputHeight, {
+        toValue: 300,
+      }).start();
+    } else {
+      console.log('텍스트 작성모드 OFF');
+      this.setState({
+        isExpandedTextMode: false,
+      });
+      Animated.spring(this.state.DiaryInputWrapHeight, {
+        toValue: 58,
+      }).start();
+      Animated.spring(this.state.DiaryInputWrapTop, {
+        toValue: 300,
+      }).start();
+      Animated.spring(this.state.DiaryInputHeight, {
+        toValue: 26,
+      }).start();
+    }
+  };
+
   render() {
     return (
       <Background source={require('../../assets/space.png')}>
@@ -29,19 +76,39 @@ export default class GoodScreen extends React.Component {
                 <VoiceWrap>
                   <RecordButton>
                     <TouchableOpacity onPress={() => context.sendDiary()}>
-                      <RecordWrap>
+                      <RecordIconWrap>
                         <RecordIcon />
-                      </RecordWrap>
+                      </RecordIconWrap>
                     </TouchableOpacity>
                   </RecordButton>
                 </VoiceWrap>
-                <DiaryInput
-                  multiline
-                  onChangeText={text => context.enterText(text)}
-                />
-                <TypeWrap>
-                  <TypeIcon />
-                </TypeWrap>
+                <TouchableOpacity onPress={this.toggleTextMode}>
+                  <AnimatedDiaryInputWrap
+                    style={{
+                      height: this.state.DiaryInputWrapHeight,
+                      top: this.state.DiaryInputWrapTop,
+                    }}>
+                    <AnimatedDiaryInput
+                      multiline
+                      scrollEnabled
+                      onChangeText={text => context.enterText(text)}
+                      onSubmitEditing={Keyboard.dismiss}
+                      onFocus={this.toggleTextMode}
+                      style={{
+                        height: this.state.DiaryInputHeight,
+                      }}
+                    />
+                    <IconWrap>
+                      {this.state.isExpandedTextMode ? (
+                        <TouchableOpacity onPress={this.toggleTextMode}>
+                          <MinimizeIcon />
+                        </TouchableOpacity>
+                      ) : (
+                        <MaxmizeIcon />
+                      )}
+                    </IconWrap>
+                  </AnimatedDiaryInputWrap>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => context.sendDiary()}>
                   <SendButton>완료</SendButton>
                 </TouchableOpacity>
@@ -85,7 +152,7 @@ const RecordButton = styled.View`
   transform: translateX(-30px);
 `;
 
-const RecordWrap = styled.View`
+const RecordIconWrap = styled.View`
   position: absolute;
   top: 20px
   right: 12px;
@@ -94,6 +161,13 @@ const RecordWrap = styled.View`
 `;
 
 const DiaryInput = styled.TextInput`
+  height: 20px;
+  padding-right: 60px;
+  overflow: hidden;
+  line-height: 20px;
+`;
+
+const DiaryInputWrap = styled.View`
   position: absolute;
   width: 360px;
   height: 58px;
@@ -103,14 +177,17 @@ const DiaryInput = styled.TextInput`
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 12px 30px 20px 20px;
   z-index: 50;
 `;
 
-const TypeWrap = styled.View`
+const AnimatedDiaryInput = Animated.createAnimatedComponent(DiaryInput);
+const AnimatedDiaryInputWrap = Animated.createAnimatedComponent(DiaryInputWrap);
+
+const IconWrap = styled.View`
   position: absolute;
-  right: 50;
-  top: 315;
+  right: 23;
+  top: 18;
   z-index: 100;
 `;
 

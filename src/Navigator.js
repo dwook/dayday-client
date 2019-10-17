@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Button, SafeAreaView} from 'react-native';
+import {Text, View, Button, SafeAreaView, TouchableOpacity} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import UserScreen from '../screens/UserScreen';
@@ -16,16 +16,25 @@ import {
   MaterialTopTabBar,
 } from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
-import {HomeIcon, WriteIcon, MenuIcon} from '../components/Icons';
+import {HomeIcon, WriteIcon, MenuIcon, CloseIcon} from '../components/Icons';
+
+import styled from 'styled-components';
+
+const CloseIconWrap = styled.View`
+  margin-left: auto;
+  padding-right: 40px;
+  font-size: 16px;
+  color: #fff;
+`;
 
 function SafeAreaDiaryTabBar(props) {
   return (
     <SafeAreaView style={{backgroundColor: 'black'}}>
-      <Button
-        onPress={() => props.navigation.navigate('Home')}
-        title="닫기"
-        color="#fff"
-      />
+      <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
+        <CloseIconWrap>
+          <CloseIcon />
+        </CloseIconWrap>
+      </TouchableOpacity>
       <MaterialTopTabBar {...props} />
     </SafeAreaView>
   );
@@ -51,6 +60,9 @@ export const DiaryTabs = createMaterialTopTabNavigator(
       tabStyle: {
         height: 70,
         backgroundColor: 'black',
+      },
+      labelStyle: {
+        fontSize: 20,
       },
     },
   },
