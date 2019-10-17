@@ -7,8 +7,10 @@ import {
   Button,
   Text,
   View,
+  SafeAreaView,
 } from 'react-native';
 import {AppContext} from '../src/Provider';
+import Circle from '../components/Circle';
 
 export default class Home extends React.Component {
   render() {
@@ -16,20 +18,25 @@ export default class Home extends React.Component {
       <ImageBackground
         style={styles.background}
         source={require('../assets/space.png')}>
-        <View style={styles.container}>
-          <AppContext.Consumer>
-            {context => (
-              <View>
-                <Text style={styles.notice}>
-                  {context.diary.good &&
-                    context.diary.bad &&
-                    context.diary.plan &&
-                    '오늘 모든 일기를 쓰셨네요!'}
-                </Text>
-              </View>
-            )}
-          </AppContext.Consumer>
-        </View>
+        <SafeAreaView>
+          <View style={styles.container}>
+            <AppContext.Consumer>
+              {context => (
+                <View>
+                  <Circle />
+                  <Circle />
+                  <Circle />
+                  <Text style={styles.notice}>
+                    {context.diary.good &&
+                      context.diary.bad &&
+                      context.diary.plan &&
+                      '오늘 모든 일기를 쓰셨네요!'}
+                  </Text>
+                </View>
+              )}
+            </AppContext.Consumer>
+          </View>
+        </SafeAreaView>
       </ImageBackground>
     );
   }

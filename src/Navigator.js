@@ -16,8 +16,9 @@ import {
   MaterialTopTabBar,
 } from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import {HomeIcon, WriteIcon, MenuIcon} from '../components/Icons';
 
-function SafeAreaMaterialTopTabBar(props) {
+function SafeAreaDiaryTabBar(props) {
   return (
     <SafeAreaView style={{backgroundColor: 'black'}}>
       <Button
@@ -30,6 +31,14 @@ function SafeAreaMaterialTopTabBar(props) {
   );
 }
 
+function SafeAreaBottomTabBar(props) {
+  return (
+    <SafeAreaView style={{backgroundColor: 'black'}}>
+      <MaterialTopTabBar {...props} />
+    </SafeAreaView>
+  );
+}
+
 export const DiaryTabs = createMaterialTopTabNavigator(
   {
     Good: GoodScreen,
@@ -37,7 +46,13 @@ export const DiaryTabs = createMaterialTopTabNavigator(
     Plan: PlanScreen,
   },
   {
-    tabBarComponent: SafeAreaMaterialTopTabBar,
+    tabBarComponent: SafeAreaDiaryTabBar,
+    tabBarOptions: {
+      tabStyle: {
+        height: 70,
+        backgroundColor: 'black',
+      },
+    },
   },
 );
 
@@ -52,21 +67,44 @@ export const DiaryStack = createStackNavigator(
 
 export const MainStack = createMaterialTopTabNavigator(
   {
-    Home: HomeScreen,
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: ({focused}) => (
+          <HomeIcon stroke={focused ? '#fff' : '#495057'} />
+        ),
+      },
+    },
     Diary: {
       screen: View,
       navigationOptions: {
         tabBarOnPress: ({navigation}) => navigation.navigate('DiaryStack'),
+        tabBarIcon: ({focused}) => (
+          <WriteIcon stroke={focused ? '#fff' : '#495057'} />
+        ),
       },
     },
-    User: UserScreen,
+    User: {
+      screen: UserScreen,
+      navigationOptions: {
+        tabBarLabel: 'User',
+        tabBarIcon: ({focused}) => (
+          <MenuIcon stroke={focused ? '#fff' : '#495057'} />
+        ),
+      },
+    },
   },
   {
     tabBarPosition: 'bottom',
+    tabBarComponent: SafeAreaBottomTabBar,
     swipeEnabled: false,
     tabBarOptions: {
-      labelStyle: {
-        fontSize: 14,
+      showIcon: true,
+      showLabel: false,
+      tabStyle: {
+        height: 70,
+        backgroundColor: 'black',
       },
     },
   },
