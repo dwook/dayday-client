@@ -31,7 +31,6 @@ class VoiceTest extends Component {
   }
 
   onSpeechStart = e => {
-    // eslint-disable-next-line
     console.log('onSpeechStart: ', e);
     this.setState({
       started: '√',
@@ -39,7 +38,6 @@ class VoiceTest extends Component {
   };
 
   onSpeechRecognized = e => {
-    // eslint-disable-next-line
     console.log('onSpeechRecognized: ', e);
     this.setState({
       recognized: '√',
@@ -47,7 +45,6 @@ class VoiceTest extends Component {
   };
 
   onSpeechEnd = e => {
-    // eslint-disable-next-line
     console.log('onSpeechEnd: ', e);
     this.setState({
       end: '√',
@@ -55,7 +52,6 @@ class VoiceTest extends Component {
   };
 
   onSpeechError = e => {
-    // eslint-disable-next-line
     console.log('onSpeechError: ', e);
     this.setState({
       error: JSON.stringify(e.error),
@@ -63,7 +59,6 @@ class VoiceTest extends Component {
   };
 
   onSpeechResults = e => {
-    // eslint-disable-next-line
     console.log('onSpeechResults: ', e);
     this.setState({
       results: e.value,
@@ -71,7 +66,6 @@ class VoiceTest extends Component {
   };
 
   onSpeechPartialResults = e => {
-    // eslint-disable-next-line
     console.log('onSpeechPartialResults: ', e);
     this.setState({
       partialResults: e.value,
@@ -79,7 +73,6 @@ class VoiceTest extends Component {
   };
 
   onSpeechVolumeChanged = e => {
-    // eslint-disable-next-line
     console.log('onSpeechVolumeChanged: ', e);
     this.setState({
       pitch: e.value,
@@ -100,7 +93,6 @@ class VoiceTest extends Component {
     try {
       await Voice.start('ko-KR');
     } catch (e) {
-      //eslint-disable-next-line
       console.error(e);
     }
   };
@@ -109,7 +101,6 @@ class VoiceTest extends Component {
     try {
       await Voice.stop();
     } catch (e) {
-      //eslint-disable-next-line
       console.error(e);
     }
   };
@@ -117,8 +108,6 @@ class VoiceTest extends Component {
   _cancelRecognizing = async () => {
     try {
       await Voice.cancel();
-    } catch (e) {
-      //eslint-disable-next-line
       console.error(e);
     }
   };
@@ -127,7 +116,6 @@ class VoiceTest extends Component {
     try {
       await Voice.destroy();
     } catch (e) {
-      //eslint-disable-next-line
       console.error(e);
     }
     this.setState({

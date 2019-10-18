@@ -1,20 +1,13 @@
 import React from 'react';
 import {
-  AsyncStorage,
-  ImageBackground,
-  Text,
-  Button,
-  TextInput,
-  StyleSheet,
   TouchableOpacity,
   Dimensions,
-  StatusBar,
   Animated,
   Keyboard,
+  NativeModules,
   View,
 } from 'react-native';
 import {AppContext} from '../../src/Provider';
-import SafeAreaView from 'react-native-safe-area-view';
 import styled from 'styled-components';
 import {
   RecordIcon,
@@ -22,13 +15,15 @@ import {
   MaxmizeIcon,
   MinimizeIcon,
 } from '../../components/Icons';
+import Voice from 'react-native-voice';
+const locale = NativeModules.SettingsManager.settings.AppleLocale;
+// console.log('언어', locale);
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 export default class GoodScreen extends React.Component {
   state = {
-    keyboardState: 'closed',
     isExpandedTextMode: false,
     isRecordMode: false,
     VoiceWrapTop: new Animated.Value(100),
@@ -40,7 +35,29 @@ export default class GoodScreen extends React.Component {
     DiaryInputWrapHeight: new Animated.Value(58),
     DiaryInputWrapTop: new Animated.Value(300),
     DiaryInputHeight: new Animated.Value(26),
+    recordedText: [],
   };
+
+  constructor(props) {
+    super(props);
+    Voice.onSpeechRecognized = this.onSpeechRecognized;
+    Voice.onSpeechResults = this.onSpeechResults;
+  }
+
+  onSpeechRecognized = e => {
+    console.log('onSpeechRecognized: ', e);
+  };
+
+  onSpeechResults = e => {
+    console.log('onSpeechResults: ', e);
+    this.setState({
+      recordedText: e.value,
+    });
+  };
+
+  componentWillUnmount() {
+    Voice.destroy().then(Voice.removeAllListeners);
+  }
 
   toggleTextMode = () => {
     if (!this.state.isExpandedTextMode) {
@@ -74,9 +91,10 @@ export default class GoodScreen extends React.Component {
     }
   };
 
-  toggleRecordMode = () => {
+  toggleRecordMode = async (enterText, diary) => {
     if (!this.state.isRecordMode) {
       console.log('보이스 작성모드 ON');
+
       Keyboard.dismiss();
       this.setState({
         isRecordMode: true,
@@ -99,8 +117,16 @@ export default class GoodScreen extends React.Component {
       Animated.spring(this.state.VoiceWrapBorderRadius, {
         toValue: 0,
       }).start();
+      try {
+        await Voice.start('ko-KR');
+        console.log('보이스시작');
+      } catch (e) {
+        console.error(e);
+      }
     } else {
       console.log('보이스 작성모드 OFF');
+      const newText = diary.good + (this.state.recordedText[0] || '');
+      await enterText(newText);
       this.setState({
         isRecordMode: false,
       });
@@ -122,6 +148,12 @@ export default class GoodScreen extends React.Component {
       Animated.spring(this.state.VoiceWrapBorderRadius, {
         toValue: 140,
       }).start();
+      try {
+        await Voice.destroy();
+        console.log('보이스끝');
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
@@ -141,7 +173,10 @@ export default class GoodScreen extends React.Component {
                     zIndex: this.state.VoiceWrapZIndex,
                     borderRadius: this.state.VoiceWrapBorderRadius,
                   }}>
-                  <TouchableOpacity onPress={this.toggleRecordMode}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.toggleRecordMode(context.enterText, context.diary)
+                    }>
                     <RecordButton>
                       <RecordIconWrap>
                         {this.state.isRecordMode ? (
@@ -166,6 +201,7 @@ export default class GoodScreen extends React.Component {
                       onChangeText={text => context.enterText(text)}
                       onSubmitEditing={Keyboard.dismiss}
                       onFocus={this.toggleTextMode}
+                      value={context.diary.good}
                       style={{
                         height: this.state.DiaryInputHeight,
                       }}
@@ -181,6 +217,7 @@ export default class GoodScreen extends React.Component {
                     </IconWrap>
                   </AnimatedDiaryInputWrap>
                 </TouchableOpacity>
+                {/* <Text>{locale}</Text> */}
                 {/* <TouchableOpacity onPress={() => context.sendDiary()}>
                   <SendButton>완료</SendButton>
                 </TouchableOpacity> */}
@@ -194,6 +231,8 @@ export default class GoodScreen extends React.Component {
 
   sendDiary = async () => {};
 }
+
+GoodScreen.contextType = AppContext;
 
 const Container = styled.View`
   flex: 1;
