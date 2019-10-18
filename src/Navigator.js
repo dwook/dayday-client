@@ -3,13 +3,8 @@ import {Text, View, Button, SafeAreaView, TouchableOpacity} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import UserScreen from '../screens/UserScreen';
-import DiaryScreen from '../screens/DiaryScreen';
-import TestScreen from '../screens/TestScreen';
-import ModalScreen from '../screens/ModalScreen';
 import AppLoadingScreen from '../screens/AppLoadingScreen';
-import GoodScreen from '../screens/Diary/GoodScreen';
-import BadScreen from '../screens/Diary/BadScreen';
-import PlanScreen from '../screens/Diary/PlanScreen';
+import {GoodScreen, BadScreen, PlanScreen} from '../screens/DiaryScreen';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {
   createMaterialTopTabNavigator,
@@ -17,32 +12,60 @@ import {
 } from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 import {HomeIcon, WriteIcon, MenuIcon, CloseIcon} from '../components/Icons';
+import {AppContext} from '../src/Provider';
 
 import styled from 'styled-components';
 
 const CloseIconWrap = styled.View`
-  margin-left: auto;
-  padding-right: 40px;
-  font-size: 16px;
   color: #fff;
+  padding-left: 40px;
+`;
+
+const SendDiaryWrap = styled.View`
+  position: absolute;
+  right: 40px;
+  top: 0px;
+  color: #fff;
+`;
+const SendDiary = styled.Text`
+  font-size: 20px;
+  color: #fff;
+`;
+
+const Header = styled.View`
+  flex-direction: column;
 `;
 
 function SafeAreaDiaryTabBar(props) {
   return (
-    <SafeAreaView style={{backgroundColor: 'black'}}>
-      <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
-        <CloseIconWrap>
-          <CloseIcon />
-        </CloseIconWrap>
-      </TouchableOpacity>
-      <MaterialTopTabBar {...props} />
+    <SafeAreaView style={{backgroundColor: '#000'}}>
+      <AppContext.Consumer>
+        {context => (
+          <View>
+            <Header>
+              <CloseIconWrap>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('Home')}>
+                  <CloseIcon />
+                </TouchableOpacity>
+              </CloseIconWrap>
+              <SendDiaryWrap>
+                <TouchableOpacity onPress={context.sendDiary}>
+                  <SendDiary>전송</SendDiary>
+                </TouchableOpacity>
+              </SendDiaryWrap>
+            </Header>
+            <MaterialTopTabBar {...props} />
+          </View>
+        )}
+      </AppContext.Consumer>
     </SafeAreaView>
   );
 }
 
 function SafeAreaBottomTabBar(props) {
   return (
-    <SafeAreaView style={{backgroundColor: 'black'}}>
+    <SafeAreaView style={{backgroundColor: '#000'}}>
       <MaterialTopTabBar {...props} />
     </SafeAreaView>
   );
@@ -59,7 +82,7 @@ export const DiaryTabs = createMaterialTopTabNavigator(
     tabBarOptions: {
       tabStyle: {
         height: 70,
-        backgroundColor: 'black',
+        backgroundColor: '#000',
       },
       labelStyle: {
         fontSize: 20,
@@ -116,7 +139,7 @@ export const MainStack = createMaterialTopTabNavigator(
       showLabel: false,
       tabStyle: {
         height: 70,
-        backgroundColor: 'black',
+        backgroundColor: '#000',
       },
     },
   },
@@ -130,6 +153,9 @@ export const AppStack = createStackNavigator(
   {
     headerMode: 'none',
     mode: 'modal',
+    cardStyle: {
+      backgroundColor: '#000',
+    },
   },
 );
 

@@ -70,7 +70,6 @@ export const RecordIcon = props => (
     width={24}
     height={24}
     fill="none"
-    stroke="#eb5757"
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
@@ -128,7 +127,6 @@ export const SquareIcon = props => (
     width={24}
     height={24}
     fill="none"
-    stroke="#eb5757"
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"

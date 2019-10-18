@@ -35,13 +35,13 @@ export default class AppProvider extends Component {
         this.setState({error});
       }
     },
-    enterText: async text => {
+    enterText: async (text, type) => {
       await this.setState(currentState => {
         return {
           ...currentState,
           diary: {
             ...currentState.diary,
-            good: text,
+            [type]: text,
           },
         };
       });
@@ -49,7 +49,10 @@ export default class AppProvider extends Component {
     },
     sendDiary: async () => {
       await axios
-        .post('http://localhost:3000/diaries', {diary: this.state.diary})
+        .post('http://localhost:3000/diaries', {
+          diary: this.state.diary,
+          user: this.state.user,
+        })
         .catch(err => {
           console.log(err);
         });
