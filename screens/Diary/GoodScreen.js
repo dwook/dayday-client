@@ -17,18 +17,26 @@ import {AppContext} from '../../src/Provider';
 import SafeAreaView from 'react-native-safe-area-view';
 import styled from 'styled-components';
 import {
-  TypeIcon,
   RecordIcon,
+  SquareIcon,
   MaxmizeIcon,
   MinimizeIcon,
 } from '../../components/Icons';
 
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 export default class GoodScreen extends React.Component {
   state = {
     keyboardState: 'closed',
     isExpandedTextMode: false,
+    isRecordMode: false,
+    VoiceWrapTop: new Animated.Value(100),
+    VoiceWrapLeft: new Animated.Value(screenWidth * 0.5 - 140),
+    VoiceWrapZIndex: new Animated.Value(-1000),
+    VoiceWrapWidth: new Animated.Value(280),
+    VoiceWrapHeight: new Animated.Value(280),
+    VoiceWrapBorderRadius: new Animated.Value(140),
     DiaryInputWrapHeight: new Animated.Value(58),
     DiaryInputWrapTop: new Animated.Value(300),
     DiaryInputHeight: new Animated.Value(26),
@@ -66,6 +74,57 @@ export default class GoodScreen extends React.Component {
     }
   };
 
+  toggleRecordMode = () => {
+    if (!this.state.isRecordMode) {
+      console.log('보이스 작성모드 ON');
+      Keyboard.dismiss();
+      this.setState({
+        isRecordMode: true,
+      });
+      Animated.spring(this.state.VoiceWrapTop, {
+        toValue: 0,
+      }).start();
+      Animated.spring(this.state.VoiceWrapLeft, {
+        toValue: 0,
+      }).start();
+      Animated.spring(this.state.VoiceWrapWidth, {
+        toValue: screenWidth,
+      }).start();
+      Animated.spring(this.state.VoiceWrapHeight, {
+        toValue: screenHeight,
+      }).start();
+      Animated.spring(this.state.VoiceWrapZIndex, {
+        toValue: 1000,
+      }).start();
+      Animated.spring(this.state.VoiceWrapBorderRadius, {
+        toValue: 0,
+      }).start();
+    } else {
+      console.log('보이스 작성모드 OFF');
+      this.setState({
+        isRecordMode: false,
+      });
+      Animated.spring(this.state.VoiceWrapTop, {
+        toValue: 100,
+      }).start();
+      Animated.spring(this.state.VoiceWrapLeft, {
+        toValue: screenWidth * 0.5 - 140,
+      }).start();
+      Animated.spring(this.state.VoiceWrapWidth, {
+        toValue: 280,
+      }).start();
+      Animated.spring(this.state.VoiceWrapHeight, {
+        toValue: 280,
+      }).start();
+      Animated.spring(this.state.VoiceWrapZIndex, {
+        toValue: -1000,
+      }).start();
+      Animated.spring(this.state.VoiceWrapBorderRadius, {
+        toValue: 140,
+      }).start();
+    }
+  };
+
   render() {
     return (
       <Background source={require('../../assets/space.png')}>
@@ -73,15 +132,27 @@ export default class GoodScreen extends React.Component {
           <AppContext.Consumer>
             {context => (
               <View>
-                <VoiceWrap>
-                  <RecordButton>
-                    <TouchableOpacity onPress={() => context.sendDiary()}>
+                <AnimatedVoiceWrap
+                  style={{
+                    top: this.state.VoiceWrapTop,
+                    left: this.state.VoiceWrapLeft,
+                    width: this.state.VoiceWrapWidth,
+                    height: this.state.VoiceWrapHeight,
+                    zIndex: this.state.VoiceWrapZIndex,
+                    borderRadius: this.state.VoiceWrapBorderRadius,
+                  }}>
+                  <TouchableOpacity onPress={this.toggleRecordMode}>
+                    <RecordButton>
                       <RecordIconWrap>
-                        <RecordIcon />
+                        {this.state.isRecordMode ? (
+                          <SquareIcon />
+                        ) : (
+                          <RecordIcon />
+                        )}
                       </RecordIconWrap>
-                    </TouchableOpacity>
-                  </RecordButton>
-                </VoiceWrap>
+                    </RecordButton>
+                  </TouchableOpacity>
+                </AnimatedVoiceWrap>
                 <TouchableOpacity onPress={this.toggleTextMode}>
                   <AnimatedDiaryInputWrap
                     style={{
@@ -91,6 +162,7 @@ export default class GoodScreen extends React.Component {
                     <AnimatedDiaryInput
                       multiline
                       scrollEnabled
+                      placeholder={'Write your day'}
                       onChangeText={text => context.enterText(text)}
                       onSubmitEditing={Keyboard.dismiss}
                       onFocus={this.toggleTextMode}
@@ -109,9 +181,9 @@ export default class GoodScreen extends React.Component {
                     </IconWrap>
                   </AnimatedDiaryInputWrap>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => context.sendDiary()}>
+                {/* <TouchableOpacity onPress={() => context.sendDiary()}>
                   <SendButton>완료</SendButton>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             )}
           </AppContext.Consumer>
@@ -132,13 +204,9 @@ const Container = styled.View`
 
 const VoiceWrap = styled.View`
   position: absolute;
-  top: 100px;
-  left: ${screenWidth * 0.5};
-  width: 280px;
-  height: 280px;
-  border-radius: 140px;
+  justify-content: center;
+  align-items: center;
   background: #eb5757;
-  transform: translateX(-140px);
 `;
 
 const RecordButton = styled.View`
@@ -146,10 +214,6 @@ const RecordButton = styled.View`
   height: 60px;
   border-radius: 30px;
   background: #fff;
-  position: absolute;
-  top: 110px;
-  left: 140px;
-  transform: translateX(-30px);
 `;
 
 const RecordIconWrap = styled.View`
@@ -157,11 +221,9 @@ const RecordIconWrap = styled.View`
   top: 20px
   right: 12px;
   transform: translateX(-6px);
-  z-index: 100;
 `;
 
 const DiaryInput = styled.TextInput`
-  height: 20px;
   padding-right: 60px;
   overflow: hidden;
   line-height: 20px;
@@ -170,17 +232,15 @@ const DiaryInput = styled.TextInput`
 const DiaryInputWrap = styled.View`
   position: absolute;
   width: 360px;
-  height: 58px;
-  top: 300px;
   left: ${screenWidth * 0.5};
   transform: translateX(-180px);
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   padding: 12px 30px 20px 20px;
-  z-index: 50;
 `;
 
+const AnimatedVoiceWrap = Animated.createAnimatedComponent(VoiceWrap);
 const AnimatedDiaryInput = Animated.createAnimatedComponent(DiaryInput);
 const AnimatedDiaryInputWrap = Animated.createAnimatedComponent(DiaryInputWrap);
 
@@ -188,7 +248,6 @@ const IconWrap = styled.View`
   position: absolute;
   right: 23;
   top: 18;
-  z-index: 100;
 `;
 
 const Background = styled.ImageBackground`

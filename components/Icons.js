@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, {Path, Circle} from 'react-native-svg';
+import Svg, {Path, Circle, Rect} from 'react-native-svg';
 import styled from 'styled-components';
 
 export const HomeIcon = props => (
@@ -120,6 +120,20 @@ export const MaxmizeIcon = props => (
     strokeLinejoin="round"
     {...props}>
     <Path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+  </Svg>
+);
+
+export const SquareIcon = props => (
+  <Svg
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#eb5757"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Rect x={3} y={3} width={18} height={18} rx={2} ry={2} />
   </Svg>
 );
 
