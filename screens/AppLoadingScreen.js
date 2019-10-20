@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  StatusBar,
-  AsyncStorage,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {ActivityIndicator, StatusBar, StyleSheet, View} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class AppLoading extends React.Component {
   constructor() {

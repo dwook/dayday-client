@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage} from '@react-native-community/async-storage';
 import axios from 'axios';
 import moment from 'moment';
 import Voice from 'react-native-voice';
@@ -18,6 +18,7 @@ export default class AppProvider extends Component {
       bad: '',
       plan: '',
     },
+    diaryList: [],
     recordedText: '',
     onSpeechRecognized: e => {
       console.log('onSpeechRecognized: ', e);
@@ -68,6 +69,9 @@ export default class AppProvider extends Component {
             type,
             pagination,
           },
+        })
+        .then(data => {
+          console.log(data);
         })
         .catch(err => {
           console.log(err);

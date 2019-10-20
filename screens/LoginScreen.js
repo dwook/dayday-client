@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-  AsyncStorage,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {AppContext} from '../src/Provider';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import styled from 'styled-components';
 import axios from 'axios';
 
 export default class LoginScreen extends React.Component {
@@ -45,58 +39,55 @@ export default class LoginScreen extends React.Component {
 
   render() {
     return (
-      <ImageBackground
-        style={styles.background}
-        source={require('../assets/space.png')}>
-        <View style={styles.container}>
-          <Text style={styles.title}>오늘,{'\n'}어떤 하루를 보내셨나요?</Text>
+      <Background source={require('../assets/space.png')}>
+        <Container>
+          <IntroText>오늘,{'\n'}어떤 하루를 보내셨나요?</IntroText>
           <AppContext.Consumer>
             {context => (
               <TouchableOpacity
                 onPress={() =>
                   this.loginWithFacebook(context.saveToken, context.setUser)
                 }>
-                <View style={styles.button}>
-                  <Text style={styles.buttonText}>Login with Facebook</Text>
-                </View>
+                <FacebookButton>
+                  <FacebookText>Login with Facebook</FacebookText>
+                </FacebookButton>
               </TouchableOpacity>
             )}
           </AppContext.Consumer>
-        </View>
-      </ImageBackground>
+        </Container>
+      </Background>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    marginRight: 'auto',
-    paddingLeft: 60,
-    marginBottom: 300,
-    fontSize: 22,
-    color: '#fff',
-  },
-  button: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 30,
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 30,
-    paddingRight: 30,
-  },
-  buttonText: {
-    color: '#000',
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  background: {
-    flex: 1,
-  },
-});
+const Background = styled.ImageBackground`
+  flex: 1;
+  background: #000;
+  padding: 30px;
+`;
+
+const Container = styled.View`
+  flex: 1;
+  flex-direction: column;
+  align-content: flex-start;
+`;
+
+const IntroText = styled.Text`
+  margin-top: 200px;
+  margin-left: 20px;
+  margin-bottom: 300px;
+  font-size: 22px;
+  color: #fff;
+`;
+
+const FacebookButton = styled.View`
+  background: #fff;
+  height: 60px;
+  margin: 0 20px;
+  padding: 20px 30px;
+  border-radius: 30px;
+`;
+const FacebookText = styled.Text`
+  text-align: center;
+  font-size: 18px;
+`;

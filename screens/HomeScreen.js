@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  AsyncStorage,
   ImageBackground,
   TouchableHighlight,
   StyleSheet,

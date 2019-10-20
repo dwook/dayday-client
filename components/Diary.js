@@ -221,6 +221,10 @@ export default class Diary extends React.Component {
 }
 Diary.contextType = AppContext;
 
+const Background = styled.ImageBackground`
+  flex: 1;
+`;
+
 const Container = styled.View`
   flex: 1;
   flex-direction: column;
@@ -268,10 +272,6 @@ const IconWrap = styled.View`
   position: absolute;
   right: 23;
   top: 18;
-`;
-
-const Background = styled.ImageBackground`
-  flex: 1;
 `;
 
 const SendButton = styled.Text`

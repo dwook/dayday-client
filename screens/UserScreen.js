@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  AsyncStorage,
   ImageBackground,
   Image,
   Text,
@@ -8,7 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {AppContext} from '../src/Provider';
+import styled from 'styled-components';
 
 export default class User extends React.Component {
   static navigationOptions = {
@@ -17,31 +18,24 @@ export default class User extends React.Component {
 
   render() {
     return (
-      <ImageBackground
-        style={styles.background}
-        source={require('../assets/space.png')}>
-        <View style={styles.container}>
+      <Background source={require('../assets/space.png')}>
+        <Container>
           <AppContext.Consumer>
             {context => (
               <View>
-                <Image
-                  source={{uri: context.user.profile_image}}
-                  style={styles.image}
-                />
-                <Text style={styles.text}>
+                <ProfileImage source={{uri: context.user.profile_image}} />
+                <ProfileText>
                   {context.user.name}님,{'\n'}안녕하세요!
-                </Text>
+                </ProfileText>
                 <TouchableOpacity
                   onPress={() => this.logoutAsync(context.removeToken)}>
-                  <View>
-                    <Text style={styles.buttonText}>Logout</Text>
-                  </View>
+                  <LogoutText>Logout</LogoutText>
                 </TouchableOpacity>
               </View>
             )}
           </AppContext.Consumer>
-        </View>
-      </ImageBackground>
+        </Container>
+      </Background>
     );
   }
 
@@ -52,24 +46,22 @@ export default class User extends React.Component {
   };
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  background: {
-    flex: 1,
-  },
-  image: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  buttonText: {
-    color: '#ffffff',
-  },
-  text: {
-    color: '#ffffff',
-  },
-});
+const Background = styled.ImageBackground`
+  flex: 1;
+`;
+
+const Container = styled.View`
+  flex: 1;
+  flex-direction: column;
+  align-content: flex-start;
+`;
+
+const ProfileImage = styled.Image``;
+
+const ProfileText = styled.Text`
+  color: #fff;
+`;
+
+const LogoutText = styled.Text`
+  color: #fff;
+`;

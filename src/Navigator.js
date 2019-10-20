@@ -159,13 +159,18 @@ export const AppStack = createStackNavigator(
   },
 );
 
-export const AuthStack = createStackNavigator({Login: LoginScreen});
+export const AuthStack = createStackNavigator(
+  {Login: LoginScreen},
+  {
+    headerMode: 'none',
+  },
+);
 
 export default createAppContainer(
   createSwitchNavigator(
     {
-      AppLoading: AppLoadingScreen,
       App: AppStack,
+      AppLoading: AppLoadingScreen,
       Auth: AuthStack,
     },
     {
