@@ -20,38 +20,27 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 export default class Diary extends React.Component {
-  state = {
-    recordedText: [],
-    isExpandedTextMode: false,
-    isRecordMode: false,
-    VoiceWrapTop: new Animated.Value(100),
-    VoiceWrapLeft: new Animated.Value(screenWidth * 0.5 - 140),
-    VoiceWrapZIndex: new Animated.Value(-1000),
-    VoiceWrapWidth: new Animated.Value(280),
-    VoiceWrapHeight: new Animated.Value(280),
-    VoiceWrapBorderRadius: new Animated.Value(140),
-    DiaryInputWrapHeight: new Animated.Value(58),
-    DiaryInputWrapTop: new Animated.Value(300),
-    DiaryInputHeight: new Animated.Value(26),
-  };
-
   constructor(props) {
     super(props);
-    Voice.onSpeechRecognized = this.onSpeechRecognized;
-    Voice.onSpeechResults = this.onSpeechResults;
+    this.state = {
+      recordedText: [],
+      isExpandedTextMode: false,
+      isRecordMode: false,
+      VoiceWrapTop: new Animated.Value(100),
+      VoiceWrapLeft: new Animated.Value(screenWidth * 0.5 - 140),
+      VoiceWrapZIndex: new Animated.Value(-1000),
+      VoiceWrapWidth: new Animated.Value(280),
+      VoiceWrapHeight: new Animated.Value(280),
+      VoiceWrapBorderRadius: new Animated.Value(140),
+      DiaryInputWrapHeight: new Animated.Value(58),
+      DiaryInputWrapTop: new Animated.Value(300),
+      DiaryInputHeight: new Animated.Value(26),
+    };
   }
 
-  onSpeechRecognized = e => {
-    console.log('onSpeechRecognized: ', e);
-  };
-
-  onSpeechResults = e => {
-    console.log('onSpeechResults: ', e);
-    this.setState({
-      recordedText: e.value,
-    });
-  };
-
+  componentDidMount() {
+    this.context.getTodayDiary();
+  }
   componentWillUnmount() {
     Voice.destroy().then(Voice.removeAllListeners);
   }
@@ -88,7 +77,7 @@ export default class Diary extends React.Component {
     }
   };
 
-  toggleRecordMode = async (enterText, diary) => {
+  toggleRecordMode = async (enterText, diary, recordedText) => {
     if (!this.state.isRecordMode) {
       console.log('보이스 작성모드 ON');
       Keyboard.dismiss();
@@ -121,8 +110,8 @@ export default class Diary extends React.Component {
       }
     } else {
       console.log('보이스 작성모드 OFF');
-      const newText =
-        diary[this.props.type] + (this.state.recordedText[0] || '');
+      console.log('녹음된 내용', recordedText);
+      const newText = diary[this.props.type] + (recordedText[0] || '');
       await enterText(newText, this.props.type);
       this.setState({
         isRecordMode: false,
@@ -147,6 +136,7 @@ export default class Diary extends React.Component {
       }).start();
       try {
         await Voice.destroy();
+        this.toggleTextMode();
         console.log('보이스 끝');
       } catch (e) {
         console.error(e);
@@ -173,7 +163,11 @@ export default class Diary extends React.Component {
                   }}>
                   <TouchableOpacity
                     onPress={() =>
-                      this.toggleRecordMode(context.enterText, context.diary)
+                      this.toggleRecordMode(
+                        context.enterText,
+                        context.diary,
+                        context.recordedText,
+                      )
                     }>
                     <RecordButton>
                       <RecordIconWrap>
@@ -225,6 +219,7 @@ export default class Diary extends React.Component {
     );
   }
 }
+Diary.contextType = AppContext;
 
 const Container = styled.View`
   flex: 1;
