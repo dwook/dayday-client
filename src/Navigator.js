@@ -50,7 +50,11 @@ function SafeAreaDiaryTabBar(props) {
                 </TouchableOpacity>
               </CloseIconWrap>
               <SendDiaryWrap>
-                <TouchableOpacity onPress={context.sendDiary}>
+                <TouchableOpacity
+                  onPress={() => {
+                    context.sendDiary();
+                    props.navigation.navigate('Home');
+                  }}>
                   <SendDiary>전송</SendDiary>
                 </TouchableOpacity>
               </SendDiaryWrap>

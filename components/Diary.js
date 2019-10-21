@@ -38,9 +38,6 @@ export default class Diary extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.context.getTodayDiary();
-  }
   componentWillUnmount() {
     Voice.destroy().then(Voice.removeAllListeners);
   }
@@ -219,7 +216,6 @@ export default class Diary extends React.Component {
     );
   }
 }
-Diary.contextType = AppContext;
 
 const Background = styled.ImageBackground`
   flex: 1;

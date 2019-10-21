@@ -18,8 +18,55 @@ export default class AppProvider extends Component {
       bad: '',
       plan: '',
     },
-    diaryList: [],
+    diary_list: [],
     recordedText: '',
+    date: new Date(),
+    isYearPickerOpen: false,
+    isMonthPickerOpen: false,
+    toggleYear: () => {
+      this.setState({
+        isYearPickerOpen: !this.state.isYearPickerOpen,
+        isMonthPickerOpen: false,
+      });
+    },
+    toggleMonth: () => {
+      this.setState({
+        isMonthPickerOpen: !this.state.isMonthPickerOpen,
+        isYearPickerOpen: false,
+      });
+    },
+    changeYear: item => {
+      console.log('연도변경시작', item, this.state.date);
+      const newDate =
+        item +
+        moment(this.state.date)
+          .format('YYYY-MM')
+          .slice(4);
+      console.log(typeof newDate);
+      this.setState(
+        {
+          date: new Date(newDate),
+          isYearPickerOpen: false,
+        },
+        this.state.getMonthDiary,
+      );
+      console.log('연도변경완료', newDate, this.state.date);
+    },
+    changeMonth: item => {
+      console.log('달변경', item, this.state.date);
+      const newDate =
+        moment(this.state.date)
+          .format('YYYY-MM')
+          .slice(0, 5) + item;
+      this.setState(
+        {
+          date: new Date(newDate),
+          isMonthPickerOpen: false,
+        },
+        this.state.getMonthDiary,
+      );
+      console.log('달변경완료', newDate, this.state.date);
+    },
     onSpeechRecognized: e => {
       console.log('onSpeechRecognized: ', e);
     },
@@ -60,18 +107,21 @@ export default class AppProvider extends Component {
       });
       console.log('내용작성', this.state.diary);
     },
-    getDiary: async (writer, date, type, pagination) => {
+    getDiary: async (writer, begin, end, type) => {
       await axios
         .get('http://localhost:3000/diaries', {
           params: {
             writer,
-            date,
+            begin,
+            end,
             type,
-            pagination,
           },
         })
         .then(data => {
-          console.log(data);
+          this.setState({
+            diary_list: data.data.diary,
+          });
+          console.log('들어온 이번달 일기들', this.state.diary_list);
         })
         .catch(err => {
           console.log(err);
@@ -82,7 +132,8 @@ export default class AppProvider extends Component {
         .get('http://localhost:3000/diaries', {
           params: {
             writer: this.state.user.id,
-            date: moment(new Date()).format('YYYY-MM-DD'),
+            begin: moment(new Date()).format('YYYY-MM-DD'),
+            end: moment(new Date()).format('YYYY-MM-DD'),
           },
         })
         .then(data => {
@@ -103,12 +154,29 @@ export default class AppProvider extends Component {
           console.log(err);
         });
     },
+    getMonthDiary: async () => {
+      console.log(
+        '이번달 불러옵니다.',
+        this.state.date,
+        typeof this.state.date,
+      );
+      const startOfMonth = moment(this.state.date)
+        .startOf('month')
+        .format('YYYY-MM-DD');
+      const endOfMonth = moment(this.state.date)
+        .endOf('month')
+        .format('YYYY-MM-DD');
+      this.state.getDiary(this.state.user.id, startOfMonth, endOfMonth);
+    },
     sendDiary: async () => {
       await axios
         .post('http://localhost:3000/diaries', {
           diary: this.state.diary,
           user: this.state.user,
           date: moment(new Date()).format('YYYY-MM-DD'),
+        })
+        .then((data, props) => {
+          console.log('프롭스', data, props);
         })
         .catch(err => {
           console.log(err);
