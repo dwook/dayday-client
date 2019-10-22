@@ -82,6 +82,7 @@ export default class Home extends React.Component {
       <AppContext.Consumer>
         {context => (
           <Container>
+            <Modal />
             <Background source={require('../assets/space.png')}>
               <View>
                 <DatePickerWrap>
@@ -126,7 +127,6 @@ export default class Home extends React.Component {
                 />
               </View>
             </Background>
-            {context.isModalOpen && <Modal />}
           </Container>
         )}
       </AppContext.Consumer>
@@ -203,7 +203,7 @@ const DiaryText = styled.Text`
 
 const Dot = styled.View`
   width: 20px;
-  height: 1px;
+  height: 20px;
   background: ${props => props.color};
 `;
 

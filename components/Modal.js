@@ -1,8 +1,9 @@
 import React from 'react';
-import {TouchableOpacity, Dimensions, Text, View} from 'react-native';
+import {Animated, TouchableOpacity, Dimensions, Text, View} from 'react-native';
 import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
 import {CloseIcon} from './Icons';
+import {THEME_COLOR} from '../constant';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -10,24 +11,43 @@ const screenHeight = Dimensions.get('window').height;
 export default class Modal extends React.Component {
   render() {
     return (
-      <Container>
-        <AppContext.Consumer>
-          {context => (
-            <View>
-              <CloseIconWrap>
-                <TouchableOpacity onPress={context.toggleModal}>
-                  <CloseIcon stroke={'#000'} />
-                </TouchableOpacity>
-              </CloseIconWrap>
+      <AppContext.Consumer>
+        {context => (
+          <AnimatedContainer style={{top: context.modalTop}}>
+            <CloseIconWrap>
+              <TouchableOpacity
+                onPress={() => {
+                  context.toggleModal('close');
+                }}>
+                <CloseIcon stroke={'#000'} />
+              </TouchableOpacity>
+            </CloseIconWrap>
+            <ContentWrap>
               <Content>
-                <ContentText>{context.modalDiary.good}</ContentText>
-                <ContentText>{context.modalDiary.bad}</ContentText>
-                <ContentText>{context.modalDiary.plan}</ContentText>
+                <TitleWrap>
+                  <Dot color={THEME_COLOR.good} />
+                  <TitleText color={THEME_COLOR.good}> GOOD</TitleText>
+                </TitleWrap>
+                <DiaryText>{context.selectedDiary.good}</DiaryText>
               </Content>
-            </View>
-          )}
-        </AppContext.Consumer>
-      </Container>
+              <Content>
+                <TitleWrap>
+                  <Dot color={THEME_COLOR.bad} />
+                  <TitleText color={THEME_COLOR.bad}> BAD</TitleText>
+                </TitleWrap>
+                <DiaryText>{context.selectedDiary.bad}</DiaryText>
+              </Content>
+              <Content>
+                <TitleWrap>
+                  <Dot color={THEME_COLOR.plan} />
+                  <TitleText color={THEME_COLOR.plan}> PLAN</TitleText>
+                </TitleWrap>
+                <DiaryText>{context.selectedDiary.plan}</DiaryText>
+              </Content>
+            </ContentWrap>
+          </AnimatedContainer>
+        )}
+      </AppContext.Consumer>
     );
   }
 }
@@ -41,16 +61,37 @@ const Container = styled.View`
   z-index: 100;
 `;
 
-const Content = styled.View`
+const ContentWrap = styled.View`
   padding-top: 20px;
 `;
 
-const ContentText = styled.Text`
-  color: #000;
+const Content = styled.View`
+  flex-direction: column;
+`;
+
+const TitleWrap = styled.Text`
+  font-size: 20px;
+`;
+
+const TitleText = styled.Text`
+  color: ${props => props.color};
+`;
+
+const DiaryText = styled.Text`
+  margin: 10px 0 40px;
   font-size: 16px;
+  color: #000;
+`;
+
+const Dot = styled.View`
+  width: 20px;
+  height: 20px;
+  background: ${props => props.color};
 `;
 
 const CloseIconWrap = styled.View`
   color: #000;
   margin-left: auto;
 `;
+
+const AnimatedContainer = Animated.createAnimatedComponent(Container);

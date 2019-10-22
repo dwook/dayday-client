@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import {Animated, TouchableOpacity, Dimensions, Text, View} from 'react-native';
 import {AsyncStorage} from '@react-native-community/async-storage';
 import axios from 'axios';
 import moment from 'moment';
 import Voice from 'react-native-voice';
 export const AppContext = React.createContext();
+const screenHeight = Dimensions.get('window').height;
 
 export default class AppProvider extends Component {
   state = {
@@ -18,17 +20,26 @@ export default class AppProvider extends Component {
       bad: '',
       plan: '',
     },
-    modalDiary: null,
+    selectedDiary: {},
     diary_list: [],
     recordedText: '',
     date: new Date(),
     isYearPickerOpen: false,
     isMonthPickerOpen: false,
-    isModalOpen: false,
-    toggleModal: () => {
-      this.setState({
-        isModalOpen: !this.state.isModalOpen,
-      });
+    modalTop: new Animated.Value(screenHeight),
+    toggleModal: action => {
+      if (action === 'open') {
+        console.log('열기');
+        Animated.spring(this.state.modalTop, {
+          toValue: 0,
+        }).start();
+      }
+      if (action === 'close') {
+        console.log('닫기');
+        Animated.spring(this.state.modalTop, {
+          toValue: screenHeight,
+        }).start();
+      }
     },
     setYear: () => {
       this.setState({
@@ -143,12 +154,12 @@ export default class AppProvider extends Component {
           this.setState(currentState => {
             return {
               ...currentState,
-              modalDiary: diary,
-              isModalOpen: true,
+              selectedDiary: diary,
             };
           });
+          this.state.toggleModal('open');
           console.log(this.state.isModalOpen);
-          console.log('아이디로 들어온 일기', this.state.modalDiary);
+          console.log('아이디로 들어온 일기', this.state.selectedDiary);
         })
         .catch(err => {
           console.log(err);
