@@ -18,18 +18,25 @@ export default class AppProvider extends Component {
       bad: '',
       plan: '',
     },
+    modalDiary: null,
     diary_list: [],
     recordedText: '',
     date: new Date(),
     isYearPickerOpen: false,
     isMonthPickerOpen: false,
-    toggleYear: () => {
+    isModalOpen: false,
+    toggleModal: () => {
+      this.setState({
+        isModalOpen: !this.state.isModalOpen,
+      });
+    },
+    setYear: () => {
       this.setState({
         isYearPickerOpen: !this.state.isYearPickerOpen,
         isMonthPickerOpen: false,
       });
     },
-    toggleMonth: () => {
+    setMonth: () => {
       this.setState({
         isMonthPickerOpen: !this.state.isMonthPickerOpen,
         isYearPickerOpen: false,
@@ -107,7 +114,7 @@ export default class AppProvider extends Component {
       });
       console.log('내용작성', this.state.diary);
     },
-    getDiary: async (writer, begin, end, type) => {
+    getDiary: async ({writer, begin, end, type}) => {
       await axios
         .get('http://localhost:3000/diaries', {
           params: {
@@ -122,6 +129,26 @@ export default class AppProvider extends Component {
             diary_list: data.data.diary,
           });
           console.log('들어온 이번달 일기들', this.state.diary_list);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getDiaryById: async id => {
+      await axios
+        .get('http://localhost:3000/diaries/' + id)
+        .then(data => {
+          console.log('투데이', data.data.diary);
+          const diary = data.data.diary;
+          this.setState(currentState => {
+            return {
+              ...currentState,
+              modalDiary: diary,
+              isModalOpen: true,
+            };
+          });
+          console.log(this.state.isModalOpen);
+          console.log('아이디로 들어온 일기', this.state.modalDiary);
         })
         .catch(err => {
           console.log(err);
@@ -166,7 +193,11 @@ export default class AppProvider extends Component {
       const endOfMonth = moment(this.state.date)
         .endOf('month')
         .format('YYYY-MM-DD');
-      this.state.getDiary(this.state.user.id, startOfMonth, endOfMonth);
+      this.state.getDiary({
+        writer: this.state.user.id,
+        begin: startOfMonth,
+        end: endOfMonth,
+      });
     },
     sendDiary: async () => {
       await axios
@@ -177,6 +208,7 @@ export default class AppProvider extends Component {
         })
         .then((data, props) => {
           console.log('프롭스', data, props);
+          this.state.getMonthDiary();
         })
         .catch(err => {
           console.log(err);

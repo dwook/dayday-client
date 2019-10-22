@@ -4,6 +4,7 @@ import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
 import moment from 'moment';
 import {THEME_COLOR} from '../constant';
+import Modal from '../components/Modal';
 
 const YearData = ['2017', '2018', '2019'];
 const MonthData = [
@@ -78,19 +79,19 @@ export default class Home extends React.Component {
   }
   render() {
     return (
-      <Background source={require('../assets/space.png')}>
-        <Container>
-          <AppContext.Consumer>
-            {context => (
+      <AppContext.Consumer>
+        {context => (
+          <Container>
+            <Background source={require('../assets/space.png')}>
               <View>
                 <DatePickerWrap>
                   <DateWrap>
-                    <TouchableOpacity onPress={context.toggleYear}>
+                    <TouchableOpacity onPress={context.setYear}>
                       <DateText>{moment(context.date).format('YYYY')}</DateText>
                     </TouchableOpacity>
                   </DateWrap>
                   <DateWrap>
-                    <TouchableOpacity onPress={context.toggleMonth}>
+                    <TouchableOpacity onPress={context.setMonth}>
                       <DateText>{moment(context.date).format('MM')}</DateText>
                     </TouchableOpacity>
                   </DateWrap>
@@ -110,21 +111,25 @@ export default class Home extends React.Component {
                 <FlatList
                   data={this.context.diary_list}
                   renderItem={({item}) => (
-                    <Item
-                      date={moment(item.created_at).format('DD')}
-                      day={moment(item.created_at).format('ddd')}
-                      good={item.good}
-                      bad={item.bad}
-                      plan={item.plan}
-                    />
+                    <TouchableOpacity
+                      onPress={() => context.getDiaryById(item._id)}>
+                      <Item
+                        date={moment(item.created_at).format('DD')}
+                        day={moment(item.created_at).format('ddd')}
+                        good={item.good}
+                        bad={item.bad}
+                        plan={item.plan}
+                      />
+                    </TouchableOpacity>
                   )}
                   keyExtractor={item => item._id}
                 />
               </View>
-            )}
-          </AppContext.Consumer>
-        </Container>
-      </Background>
+            </Background>
+            {context.isModalOpen && <Modal />}
+          </Container>
+        )}
+      </AppContext.Consumer>
     );
   }
 }
@@ -132,14 +137,11 @@ export default class Home extends React.Component {
 Home.contextType = AppContext;
 
 const Background = styled.ImageBackground`
-  flex: 1;
   padding: 70px 40px;
 `;
 
 const Container = styled.View`
   flex: 1;
-  flex-direction: column;
-  align-content: flex-start;
 `;
 
 const Notice = styled.Text`

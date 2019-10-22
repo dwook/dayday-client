@@ -219,6 +219,7 @@ export default class Diary extends React.Component {
 
 const Background = styled.ImageBackground`
   flex: 1;
+  background: #000;
 `;
 
 const Container = styled.View`
