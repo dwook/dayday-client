@@ -1,9 +1,11 @@
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, Dimensions, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
 import {LogoutIcon} from '../components/Icons';
+
+const screenWidth = Dimensions.get('window').width;
 
 export default class User extends React.Component {
   render() {
@@ -56,14 +58,12 @@ export default class User extends React.Component {
 
 const Background = styled.ImageBackground`
   flex: 1;
-  background: #000;
-  padding: 70px 40px;
 `;
 
 const Container = styled.View`
   flex: 1;
-  flex-direction: column;
-  align-content: flex-start;
+  justify-content: center;
+  padding: 0 40px;
 `;
 
 const ProfileWrap = styled.View`
