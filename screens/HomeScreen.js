@@ -104,10 +104,11 @@ export default class Home extends React.Component {
                   </DateSelection>
                 </DatePickerWrap>
                 <Notice>
-                  {context.diary.good &&
+                  {!(
+                    context.diary.good &&
                     context.diary.bad &&
-                    context.diary.plan &&
-                    '오늘 모든 일기를 쓰셨네요!'}
+                    context.diary.plan
+                  ) && '오늘 일기를 작성하지 않으셨네요!'}
                 </Notice>
                 <FlatList
                   data={this.context.diary_list}

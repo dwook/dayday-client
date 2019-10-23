@@ -9,7 +9,6 @@ const screenHeight = Dimensions.get('window').height;
 
 export default class AppProvider extends Component {
   state = {
-    token: '',
     user: {
       id: '',
       name: '',
@@ -104,14 +103,6 @@ export default class AppProvider extends Component {
         },
       });
       console.log('등록된유저정보', this.state.user);
-    },
-    saveToken: async userToken => {
-      try {
-        await AsyncStorage.setItem('userToken', userToken);
-        console.log('유저토큰222', userToken);
-      } catch (error) {
-        this.setState({error});
-      }
     },
     enterText: async (text, type) => {
       await this.setState(currentState => {
@@ -224,20 +215,6 @@ export default class AppProvider extends Component {
         .catch(err => {
           console.log(err);
         });
-    },
-    removeToken: async () => {
-      try {
-        await AsyncStorage.removeItem('userToken');
-      } catch (error) {
-        this.setState({error});
-      }
-    },
-    getToken: async () => {
-      try {
-        await AsyncStorage.getItem('userToken');
-      } catch (error) {
-        this.setState({error});
-      }
     },
   };
 

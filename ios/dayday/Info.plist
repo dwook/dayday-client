@@ -25,10 +25,10 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-		<key>CFBundleURLSchemes</key>
-		<array>
-			<string>fb557114681703771</string>
-		</array>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb557114681703771</string>
+			</array>
 		</dict>
 	</array>
 	<key>FacebookAppID</key>
@@ -74,8 +74,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSMicrophoneUsageDescription</key>
-  <string>Description of why you require the use of the microphone</string>
-  <key>NSSpeechRecognitionUsageDescription</key>
-  <string>Description of why you require the use of the speech recognition</string>
+	<string>Description of why you require the use of the microphone</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Description of why you require the use of the speech recognition</string>
 </dict>
 </plist>

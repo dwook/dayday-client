@@ -1,37 +1,31 @@
 import React from 'react';
-import {ActivityIndicator, StatusBar, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StatusBar} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import styled from 'styled-components';
 
 export default class AppLoading extends React.Component {
   constructor() {
     super();
-    this._bootstrapAsync();
+    this.load();
   }
 
-  // Fetch the token from storage then navigate to our appropriate place
-  _bootstrapAsync = async () => {
+  load = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
-
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
     this.props.navigation.navigate(userToken ? 'App' : 'Auth');
   };
 
-  // Render any loading content that you like here
   render() {
     return (
-      <View style={styles.container}>
+      <Container>
         <ActivityIndicator />
         <StatusBar barStyle="default" />
-      </View>
+      </Container>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Text, SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
@@ -55,9 +55,9 @@ export default class User extends React.Component {
   }
 
   logoutAsync = async () => {
-    await AsyncStorage.clear();
-    console.log('로그아웃');
+    await AsyncStorage.removeItem('userToken');
     this.props.navigation.navigate('Login');
+    console.log('로그아웃');
   };
 }
 
@@ -81,7 +81,6 @@ const ProfileWrap = styled.View`
 const ProfileImage = styled.Image`
   width: 60px;
   height: 60px;
-  border-radius: 30px;
 `;
 
 const ProfileText = styled.Text`
