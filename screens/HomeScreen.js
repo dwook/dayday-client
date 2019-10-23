@@ -115,7 +115,7 @@ export default class Home extends React.Component {
                       <TodayDateText>{moment().format('DD')}</TodayDateText>
                       <TodayDateText>{moment().format('ddd')}</TodayDateText>
                     </TodayDateWrap>
-                    <TodayText>오늘 일기를 작성하지 않으셨네요! </TodayText>
+                    <TodayText>오늘 일기를 작성하지 않으셨네요!</TodayText>
                   </Today>
                 )}
                 <FlatListWrap>

@@ -3,18 +3,15 @@ import {TouchableOpacity, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
+import {LogoutIcon} from '../components/Icons';
 
 export default class User extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
-
   render() {
     return (
-      <Background source={require('../assets/space.png')}>
-        <Container>
-          <AppContext.Consumer>
-            {context => (
+      <AppContext.Consumer>
+        {context => (
+          <Background source={require('../assets/space.png')}>
+            <Container>
               <View>
                 <ProfileWrap>
                   <ProfileImage source={{uri: context.user.profile_image}} />
@@ -23,38 +20,34 @@ export default class User extends React.Component {
                   </ProfileText>
                 </ProfileWrap>
                 <ButtonWrap>
-                  <TouchableOpacity
-                    onPress={() => this.logoutAsync(context.removeToken)}>
+                  <TouchableOpacity onPress={() => {}}>
                     <GoodButton>
                       <ButtonText>Good</ButtonText>
                     </GoodButton>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => this.logoutAsync(context.removeToken)}>
+                  <TouchableOpacity onPress={() => {}}>
                     <BadButton>
                       <ButtonText>Bad</ButtonText>
                     </BadButton>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => this.logoutAsync(context.removeToken)}>
+                  <TouchableOpacity onPress={() => {}}>
                     <PlanButton>
                       <ButtonText>Plan</ButtonText>
                     </PlanButton>
                   </TouchableOpacity>
                 </ButtonWrap>
-                <TouchableOpacity
-                  onPress={() => this.logoutAsync(context.removeToken)}>
-                  <LogoutText>Logout</LogoutText>
+                <TouchableOpacity onPress={this.logout}>
+                  <LogoutIcon />
                 </TouchableOpacity>
               </View>
-            )}
-          </AppContext.Consumer>
-        </Container>
-      </Background>
+            </Container>
+          </Background>
+        )}
+      </AppContext.Consumer>
     );
   }
 
-  logoutAsync = async () => {
+  logout = async () => {
     await AsyncStorage.removeItem('userToken');
     this.props.navigation.navigate('Login');
     console.log('로그아웃');
@@ -88,11 +81,6 @@ const ProfileText = styled.Text`
   margin-top: 5px;
   color: #fff;
   font-size: 20px;
-`;
-
-const LogoutText = styled.Text`
-  color: #fff;
-  font-size: 24px;
 `;
 
 const ButtonWrap = styled.View`

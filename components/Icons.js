@@ -135,6 +135,20 @@ export const SquareIcon = props => (
   </Svg>
 );
 
+export const LogoutIcon = props => (
+  <Svg
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#fff"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+  </Svg>
+);
+
 const Container = styled.View`
   padding-bottom: 10px;
 `;
