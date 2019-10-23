@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {Animated, TouchableOpacity, Dimensions, Text, View} from 'react-native';
-import {AsyncStorage} from '@react-native-community/async-storage';
 import axios from 'axios';
 import moment from 'moment';
 import Voice from 'react-native-voice';
-export const AppContext = React.createContext();
 const screenHeight = Dimensions.get('window').height;
+export const AppContext = React.createContext();
 
 export default class AppProvider extends Component {
   state = {
@@ -199,7 +198,7 @@ export default class AppProvider extends Component {
           user: this.state.user,
           date: moment(new Date()).format('YYYY-MM-DD'),
         })
-        .then((data, props) => {
+        .then(() => {
           this.state.getMonthDiary();
         })
         .catch(err => {

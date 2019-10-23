@@ -1,26 +1,26 @@
 import React from 'react';
 import {View, Text, FlatList, Dimensions, TouchableOpacity} from 'react-native';
-import {AppContext} from '../src/Provider';
-import styled from 'styled-components';
-import moment from 'moment';
-import {THEME_COLOR} from '../constant';
 import Modal from '../components/Modal';
+import {AppContext} from '../src/Provider';
+import moment from 'moment';
+import styled from 'styled-components';
+import {THEME_COLOR} from '../constant';
 
 const screenWidth = Dimensions.get('window').width;
 const YearData = ['2017', '2018', '2019'];
 const MonthData = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10',
-  '11',
-  '12',
+  {value: '01', name: 'Jan'},
+  {value: '02', name: 'Feb'},
+  {value: '03', name: 'Mar'},
+  {value: '04', name: 'Apr'},
+  {value: '05', name: 'May'},
+  {value: '06', name: 'Jun'},
+  {value: '07', name: 'Jul'},
+  {value: '08', name: 'Aug'},
+  {value: '09', name: 'Sep'},
+  {value: '10', name: 'Oct'},
+  {value: '11', name: 'Nov'},
+  {value: '12', name: 'Dec'},
 ];
 
 function Item({date, day, good, bad, plan}) {
@@ -60,14 +60,15 @@ function DateList(type, changeDate) {
       data={type === 'year' ? YearData : MonthData}
       renderItem={({item}) => {
         return (
-          <TouchableOpacity onPress={() => changeDate(item)}>
-            <ItemText>
-              <Text>{item}</Text>
-            </ItemText>
+          <TouchableOpacity
+            onPress={() => changeDate(type === 'year' ? item : item.value)}>
+            <ItemWrap>
+              <ItemText>{type === 'year' ? item : item.name}</ItemText>
+            </ItemWrap>
           </TouchableOpacity>
         );
       }}
-      keyExtractor={item => item}
+      keyExtractor={item => (type === 'year' ? item : item.value)}
       horizontal={true}
     />
   );
@@ -94,7 +95,7 @@ export default class Home extends React.Component {
                   </DateWrap>
                   <DateWrap>
                     <TouchableOpacity onPress={context.setMonth}>
-                      <DateText>{moment(context.date).format('MM')}</DateText>
+                      <DateText>{moment(context.date).format('MMM')}</DateText>
                     </TouchableOpacity>
                   </DateWrap>
                   <DateSelection>
@@ -104,19 +105,19 @@ export default class Home extends React.Component {
                       DateList('month', context.changeMonth)}
                   </DateSelection>
                 </DatePickerWrap>
-                <Today>
-                  <TodayDateWrap>
-                    <TodayDateText>{moment().format('DD')}</TodayDateText>
-                    <TodayDateText>{moment().format('ddd')}</TodayDateText>
-                  </TodayDateWrap>
-                  <TodayText>
-                    {!(
-                      context.diary.good &&
-                      context.diary.bad &&
-                      context.diary.plan
-                    ) && '오늘 일기를 작성하지 않으셨네요!'}
-                  </TodayText>
-                </Today>
+                {!(
+                  context.diary.good &&
+                  context.diary.bad &&
+                  context.diary.plan
+                ) && (
+                  <Today>
+                    <TodayDateWrap>
+                      <TodayDateText>{moment().format('DD')}</TodayDateText>
+                      <TodayDateText>{moment().format('ddd')}</TodayDateText>
+                    </TodayDateWrap>
+                    <TodayText>오늘 일기를 작성하지 않으셨네요! </TodayText>
+                  </Today>
+                )}
                 <FlatListWrap>
                   <FlatList
                     data={this.context.diary_list}
@@ -247,14 +248,21 @@ const Dot = styled.View`
   background: ${props => props.color};
 `;
 
-const ItemText = styled.View`
+const ItemWrap = styled.View`
   width: 60px;
   height: 60px;
-  background: #fff;
   border-radius: 30px;
   justify-content: center;
   align-items: center;
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: #fff;
 `;
+
+const ItemText = styled.Text`
+  color: #fff;
+`;
+
 const ItemList = styled.FlatList`
-  width: 400px;
+  width: ${screenWidth * 0.8};
 `;
