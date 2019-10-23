@@ -143,7 +143,7 @@ export const MainStack = createMaterialTopTabNavigator(
       showLabel: false,
       tabStyle: {
         height: 70,
-        backgroundColor: '#000',
+        backgroundColor: 'red',
       },
     },
   },

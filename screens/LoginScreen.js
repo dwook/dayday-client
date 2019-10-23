@@ -88,5 +88,5 @@ const FacebookButton = styled.View`
 
 const FacebookText = styled.Text`
   text-align: center;
-  font-size: 18px;
+  font-size: 15px;
 `;

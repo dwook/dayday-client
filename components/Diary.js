@@ -4,7 +4,6 @@ import {
   Dimensions,
   Animated,
   Keyboard,
-  NativeModules,
   View,
 } from 'react-native';
 import {RecordIcon, SquareIcon, MaxmizeIcon, MinimizeIcon} from './Icons';
@@ -12,9 +11,6 @@ import Voice from 'react-native-voice';
 import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
 import {THEME_COLOR} from '../constant';
-import moment from 'moment';
-const locale = NativeModules.SettingsManager.settings.AppleLocale;
-// console.log('언어', locale);
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;

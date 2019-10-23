@@ -140,7 +140,6 @@ export default class AppProvider extends Component {
       await axios
         .get('http://localhost:3000/diaries/' + id)
         .then(data => {
-          console.log('투데이', data.data.diary);
           const diary = data.data.diary;
           this.setState(currentState => {
             return {
@@ -149,8 +148,6 @@ export default class AppProvider extends Component {
             };
           });
           this.state.toggleModal('open');
-          console.log(this.state.isModalOpen);
-          console.log('아이디로 들어온 일기', this.state.selectedDiary);
         })
         .catch(err => {
           console.log(err);
@@ -166,7 +163,6 @@ export default class AppProvider extends Component {
           },
         })
         .then(data => {
-          console.log('투데이', data.data.diary);
           const {good, bad, plan} = data.data.diary[0];
           this.setState(currentState => {
             return {
@@ -184,11 +180,6 @@ export default class AppProvider extends Component {
         });
     },
     getMonthDiary: async () => {
-      console.log(
-        '이번달 불러옵니다.',
-        this.state.date,
-        typeof this.state.date,
-      );
       const startOfMonth = moment(this.state.date)
         .startOf('month')
         .format('YYYY-MM-DD');
@@ -209,7 +200,6 @@ export default class AppProvider extends Component {
           date: moment(new Date()).format('YYYY-MM-DD'),
         })
         .then((data, props) => {
-          console.log('프롭스', data, props);
           this.state.getMonthDiary();
         })
         .catch(err => {

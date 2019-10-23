@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, Dimensions, TouchableOpacity} from 'react-native';
 import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
 import moment from 'moment';
 import {THEME_COLOR} from '../constant';
 import Modal from '../components/Modal';
 
+const screenWidth = Dimensions.get('window').width;
 const YearData = ['2017', '2018', '2019'];
 const MonthData = [
   '01',
@@ -103,29 +104,37 @@ export default class Home extends React.Component {
                       DateList('month', context.changeMonth)}
                   </DateSelection>
                 </DatePickerWrap>
-                <Notice>
-                  {!(
-                    context.diary.good &&
-                    context.diary.bad &&
-                    context.diary.plan
-                  ) && '오늘 일기를 작성하지 않으셨네요!'}
-                </Notice>
-                <FlatList
-                  data={this.context.diary_list}
-                  renderItem={({item}) => (
-                    <TouchableOpacity
-                      onPress={() => context.getDiaryById(item._id)}>
-                      <Item
-                        date={moment(item.created_at).format('DD')}
-                        day={moment(item.created_at).format('ddd')}
-                        good={item.good}
-                        bad={item.bad}
-                        plan={item.plan}
-                      />
-                    </TouchableOpacity>
-                  )}
-                  keyExtractor={item => item._id}
-                />
+                <Today>
+                  <TodayDateWrap>
+                    <TodayDateText>{moment().format('DD')}</TodayDateText>
+                    <TodayDateText>{moment().format('ddd')}</TodayDateText>
+                  </TodayDateWrap>
+                  <TodayText>
+                    {!(
+                      context.diary.good &&
+                      context.diary.bad &&
+                      context.diary.plan
+                    ) && '오늘 일기를 작성하지 않으셨네요!'}
+                  </TodayText>
+                </Today>
+                <FlatListWrap>
+                  <FlatList
+                    data={this.context.diary_list}
+                    renderItem={({item}) => (
+                      <TouchableOpacity
+                        onPress={() => context.getDiaryById(item._id)}>
+                        <Item
+                          date={moment(item.created_at).format('DD')}
+                          day={moment(item.created_at).format('ddd')}
+                          good={item.good}
+                          bad={item.bad}
+                          plan={item.plan}
+                        />
+                      </TouchableOpacity>
+                    )}
+                    keyExtractor={item => item._id}
+                  />
+                </FlatListWrap>
               </View>
             </Background>
           </Container>
@@ -145,10 +154,40 @@ const Container = styled.View`
   flex: 1;
 `;
 
-const Notice = styled.Text`
+const Today = styled.View`
+  flex-direction: row;
+  align-items: center;
+  border-style: solid;
+  border-bottom-width: 0.5px;
+  border-bottom-color: #fff;
+  padding-bottom: 10px;
+`;
+
+const TodayDateWrap = styled.View`
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: #fff;
+`;
+
+const TodayDateText = styled.Text`
   color: #fff;
-  font-size: 20px;
-  margin-bottom: 20px;
+  font-size: 16px;
+`;
+
+const TodayText = styled.Text`
+  margin-left: 20px;
+  font-size: 16px;
+  color: #fff;
+`;
+
+const FlatListWrap = styled.View`
+  width: 100%;
+  height: 300px;
 `;
 
 const DatePickerWrap = styled.View`
@@ -187,7 +226,7 @@ const Diary = styled.View`
 `;
 
 const ContentWrap = styled.View`
-  width: 240px;
+  width: ${screenWidth * 0.5};
   margin-left: 20px;
 `;
 
