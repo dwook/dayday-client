@@ -144,6 +144,11 @@ export default class Diary extends React.Component {
           <AppContext.Consumer>
             {context => (
               <View>
+                {this.state.isRecordMode && (
+                  <NoticeText>
+                    말씀해주시는 내용을{'\n'}텍스트로 전환중이에요!
+                  </NoticeText>
+                )}
                 <AnimatedVoiceWrap
                   style={{
                     top: this.state.VoiceWrapTop,
@@ -224,6 +229,17 @@ const Container = styled.View`
   align-content: flex-start;
 `;
 
+const NoticeText = styled.Text`
+  flex: 1;
+  position: absolute;
+  z-index: 2000;
+  top: 200px;
+  left: 60px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+`;
+
 const VoiceWrap = styled.View`
   position: absolute;
   justify-content: center;
@@ -265,16 +281,6 @@ const IconWrap = styled.View`
   position: absolute;
   right: 23;
   top: 18;
-`;
-
-const SendButton = styled.Text`
-  margin-left: 20px;
-  padding: 15px;
-  background: #fff;
-  color: #000;
-  font-size: 16px;
-  width: 20%;
-  text-align: center;
 `;
 
 const AnimatedVoiceWrap = Animated.createAnimatedComponent(VoiceWrap);

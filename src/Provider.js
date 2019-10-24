@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Animated, TouchableOpacity, Dimensions, Text, View} from 'react-native';
+import {Animated, Dimensions} from 'react-native';
 import axios from 'axios';
 import moment from 'moment';
 import Voice from 'react-native-voice';
 const screenHeight = Dimensions.get('window').height;
+
 export const AppContext = React.createContext();
 
 export default class AppProvider extends Component {

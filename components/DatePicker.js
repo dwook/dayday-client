@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, Dimensions, TouchableOpacity} from 'react-native';
+import {Dimensions, TouchableOpacity} from 'react-native';
 import {AppContext} from '../src/Provider';
 import moment from 'moment';
 import styled from 'styled-components';

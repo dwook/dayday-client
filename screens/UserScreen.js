@@ -1,11 +1,9 @@
 import React from 'react';
-import {TouchableOpacity, Dimensions, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
 import {LogoutIcon} from '../components/Icons';
-
-const screenWidth = Dimensions.get('window').width;
 
 export default class User extends React.Component {
   render() {

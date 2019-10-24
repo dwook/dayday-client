@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Button, SafeAreaView, TouchableOpacity} from 'react-native';
+import {View, SafeAreaView, TouchableOpacity} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import UserScreen from '../screens/UserScreen';

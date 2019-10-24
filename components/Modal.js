@@ -1,5 +1,5 @@
 import React from 'react';
-import {Animated, TouchableOpacity, Dimensions, Text, View} from 'react-native';
+import {Animated, TouchableOpacity, Dimensions} from 'react-native';
 import {AppContext} from '../src/Provider';
 import styled from 'styled-components';
 import {CloseIcon} from './Icons';
