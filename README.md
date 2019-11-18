@@ -4,8 +4,9 @@
 
 # Features
 
-![Facebook을 이용한 로그인 구현, 월 단위, 일 단위 일기 조회 ](dayday1.gif)
-![Good, Bad, Plan 3가지 카테고리로 일기 작성, Speak to Text 기능. 보이스 녹음으로 일기 작성](dayday2.gif)
+<img src="dayday1.gif" width="400" height="817">
+<img src="dayday2.gif" width="411"
+height='817'>
 
 - Facebook을 이용한 로그인 구현
 - 월 단위, 일 단위 일기 조회
