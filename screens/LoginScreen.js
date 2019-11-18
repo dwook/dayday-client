@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {AppContext} from '../src/Provider';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 export default class LoginScreen extends React.Component {
   loginWithFacebook = setUser => {

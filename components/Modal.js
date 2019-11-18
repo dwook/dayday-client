@@ -1,7 +1,7 @@
 import React from 'react';
-import {Animated, TouchableOpacity, Dimensions} from 'react-native';
+import {Animated, TouchableOpacity, Dimensions, View} from 'react-native';
 import {AppContext} from '../src/Provider';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import {CloseIcon} from './Icons';
 import {THEME_COLOR} from '../constant';
 
@@ -61,9 +61,10 @@ const Container = styled.View`
   z-index: 100;
 `;
 
-const ContentWrap = styled.View`
+export const ContentWrap = styled.View`
   padding-top: 20px;
 `;
+ContentWrap.displayName = 'ContentWrap';
 
 const Content = styled.View`
   flex-direction: column;

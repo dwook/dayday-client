@@ -9,7 +9,7 @@ import {THEME_COLOR} from '../constant';
 
 const screenWidth = Dimensions.get('window').width;
 
-function Item({date, day, good, bad, plan}) {
+export function Item({date, day, good, bad, plan}) {
   return (
     <Diary>
       <DateWrap>

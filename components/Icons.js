@@ -1,6 +1,6 @@
 import React from 'react';
 import Svg, {Path, Circle, Rect} from 'react-native-svg';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 export const HomeIcon = props => (
   <Container>
