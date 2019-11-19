@@ -68,14 +68,10 @@ npm start
 
 # Deployment
 
-## (1) Client
+## Server
 
-- Netlify를 이용한 Client 배포
-
-## (2) Server
-
-- AWS Elastic Beanstalk 이용한 Server 배포
 - Circle CI 배포자동화
+- AWS Elastic Beanstalk 이용한 Server 배포
 
 # Challenges
 
