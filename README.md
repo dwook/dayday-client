@@ -4,9 +4,10 @@
 
 # Features
 
-<img src="dayday1.gif" width="400" height="817">
-<img src="dayday2.gif" width="400"
-height='795'>
+<img src="dayday_login.gif" width="400" height="817">
+<img src="dayday_month.gif" width="400" height="817">
+<img src="dayday_diary.gif" width="400" height="817">
+<img src="dayday2.gif" width="400" height='795'>
 
 - Facebook을 이용한 로그인 구현
 - 월 단위, 일 단위 일기 조회
