@@ -50,7 +50,7 @@ export default class User extends React.Component {
   logout = async () => {
     await AsyncStorage.removeItem('userToken');
     this.props.navigation.navigate('Login');
-    console.log('로그아웃');
+    console.log('logout');
   };
 }
 

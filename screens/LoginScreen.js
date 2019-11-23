@@ -17,13 +17,11 @@ export default class LoginScreen extends React.Component {
             let userToken;
             await AccessToken.getCurrentAccessToken().then(data => {
               userToken = data.accessToken.toString();
-              console.log('유저토큰', userToken);
             });
             await axios
               .post('http://localhost:3000/auth/facebook', {token: userToken})
               .then(data => {
                 setUser(data.data.user);
-                console.log('유저세팅', data.data.user);
               })
               .catch(err => {
                 console.log(err);

@@ -40,7 +40,6 @@ export default class Diary extends React.Component {
 
   toggleTextMode = () => {
     if (!this.state.isExpandedTextMode) {
-      console.log('텍스트 작성모드 ON');
       this.setState({
         isExpandedTextMode: true,
       });
@@ -54,7 +53,6 @@ export default class Diary extends React.Component {
         toValue: 300,
       }).start();
     } else {
-      console.log('텍스트 작성모드 OFF');
       this.setState({
         isExpandedTextMode: false,
       });
@@ -72,7 +70,6 @@ export default class Diary extends React.Component {
 
   toggleRecordMode = async (enterText, diary, recordedText) => {
     if (!this.state.isRecordMode) {
-      console.log('보이스 작성모드 ON');
       Keyboard.dismiss();
       this.setState({
         isRecordMode: true,
@@ -97,13 +94,10 @@ export default class Diary extends React.Component {
       }).start();
       try {
         await Voice.start('ko-KR');
-        console.log('보이스시작');
       } catch (e) {
         console.error(e);
       }
     } else {
-      console.log('보이스 작성모드 OFF');
-      console.log('녹음된 내용', recordedText);
       const newText = diary[this.props.type] + (recordedText[0] || '');
       await enterText(newText, this.props.type);
       this.setState({
@@ -130,7 +124,6 @@ export default class Diary extends React.Component {
       try {
         await Voice.destroy();
         this.toggleTextMode();
-        console.log('보이스 끝');
       } catch (e) {
         console.error(e);
       }

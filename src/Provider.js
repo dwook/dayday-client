@@ -28,13 +28,11 @@ export default class AppProvider extends Component {
     modalTop: new Animated.Value(screenHeight),
     toggleModal: action => {
       if (action === 'open') {
-        console.log('열기');
         Animated.spring(this.state.modalTop, {
           toValue: 0,
         }).start();
       }
       if (action === 'close') {
-        console.log('닫기');
         Animated.spring(this.state.modalTop, {
           toValue: screenHeight,
         }).start();
@@ -53,13 +51,11 @@ export default class AppProvider extends Component {
       });
     },
     changeYear: item => {
-      console.log('연도변경시작', item, this.state.date);
       const newDate =
         item +
         moment(this.state.date)
           .format('YYYY-MM')
           .slice(4);
-      console.log(typeof newDate);
       this.setState(
         {
           date: new Date(newDate),
@@ -67,10 +63,8 @@ export default class AppProvider extends Component {
         },
         this.state.getMonthDiary,
       );
-      console.log('연도변경완료', newDate, this.state.date);
     },
     changeMonth: item => {
-      console.log('달변경', item, this.state.date);
       const newDate =
         moment(this.state.date)
           .format('YYYY-MM')
@@ -82,7 +76,6 @@ export default class AppProvider extends Component {
         },
         this.state.getMonthDiary,
       );
-      console.log('달변경완료', newDate, this.state.date);
     },
     onSpeechRecognized: e => {
       console.log('onSpeechRecognized: ', e);
@@ -92,7 +85,6 @@ export default class AppProvider extends Component {
       this.setState({
         recordedText: e.value,
       });
-      console.log('스테이트에 들어감', this.state.recordedText);
     },
     setUser: user => {
       this.setState({
@@ -102,7 +94,6 @@ export default class AppProvider extends Component {
           profile_image: user.profile_image,
         },
       });
-      console.log('등록된유저정보', this.state.user);
     },
     enterText: async (text, type) => {
       await this.setState(currentState => {
@@ -114,7 +105,6 @@ export default class AppProvider extends Component {
           },
         };
       });
-      console.log('내용작성', this.state.diary);
     },
     getDiary: async ({writer, begin, end, type}) => {
       await axios
@@ -130,7 +120,6 @@ export default class AppProvider extends Component {
           this.setState({
             diary_list: data.data.diary,
           });
-          console.log('들어온 이번달 일기들', this.state.diary_list);
         })
         .catch(err => {
           console.log(err);
