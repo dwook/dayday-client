@@ -4,15 +4,24 @@
 
 # Features
 
-<img src="dayday_login.gif" width="400" height="817">
-<img src="dayday_month.gif" width="400" height="817">
-<img src="dayday_diary.gif" width="400" height="817">
-<img src="dayday2.gif" width="400" height='795'>
-
 - Facebook을 이용한 로그인 구현
 - 월 단위, 일 단위 일기 조회
 - Good, Bad, Plan 3가지 카테고리로 일기 작성
 - Speak to Text 기능. 보이스 녹음으로 일기 작성
+
+## User Case
+
+1. Facebook 로그인 <br/>
+   <img src="dayday_login.gif" width="400" height="817">
+
+2. 월 단위 일기 조회 <br/>
+   <img src="dayday_month.gif" width="400" height="817">
+
+3. 일 단위 일기 조회 <br/>
+   <img src="dayday_diary.gif" width="400" height="817">
+
+4. 카테고리별 일기 작성 (텍스트모드/음성모드 전환) <br/>
+   <img src="dayday_write.gif" width="400" height='795'>
 
 # Requirement
 
