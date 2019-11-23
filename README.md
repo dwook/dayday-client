@@ -66,7 +66,7 @@ npm start
 - Notion을 이용한 스케줄 관리 및 Task 정리
 - Figma를 이용한 유저 인터페이스 디자인 설계
 
-<img src="figma_dayday.png" width="400">
+<img src="figma_dayday.png">
 
 # Deployment
 
